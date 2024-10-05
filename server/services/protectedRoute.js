@@ -13,10 +13,10 @@ export default function protectedRoute(req,res,next){
     }
 
     // validate token 
-    const isValidToken = auth.verifyJWT(token)
+    const tokenObj = auth.verifyJWT(token)
     //if valid token move to the service
-    if(!isValidToken){
-        return res.status(400).json({
+    if(!tokenObj.token){
+        return res.status(500).json({
             message:"Invalid/Expired Token Provided",
             status:"Error"
         })

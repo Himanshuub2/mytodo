@@ -1,12 +1,36 @@
+import { User } from "../model/UserModel.js";
 
-
-class User{
+class UserService{
     constructor(){}
 
+    //add user
 
-    //login
+    async addUser(username,email,hashedPass){
+        const user = await User.create({
+            username:username,
+            email:email,
+            hashed_password:hashedPass,
+        })
 
-    //register
+        return user;
+    }
 
-    
+    //find user
+    async findUser(username){
+
+        const user = await User.findOne({
+            where:{
+                username:username
+            }
+        })
+
+        return user;
+    }
+
+    //update user
+    updateUser(){
+
+    }   
 }
+
+export const userService = new UserService;
