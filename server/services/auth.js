@@ -11,17 +11,17 @@ class Auth{
 
     //generate JWT
     generateJWT(user){
-        const token = jwt.sign({user},JWT_SECRET,{expiresIn:"10m"})
+        const token = jwt.sign({user},JWT_SECRET,{expiresIn:60*100})
         return token
     }
     //verify JWT
     verifyJWT(token){
         try{
             const decoded = jwt.verify(token,JWT_SECRET)
-            return decoded;
+            return {token:decoded,message:"Success"}
         }
         catch(err){
-            return err
+            return {token:null,message:err}
         }
     }
 

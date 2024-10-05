@@ -1,5 +1,6 @@
 import { User } from "../../model/UserModel.js";
 import { auth } from "../../services/auth.js";
+import { userService } from "../../services/user.js";
 import { signin } from "../../utils/validator.js";
 
 
@@ -14,13 +15,9 @@ export default async function signinController(req,res){
             status:"Error"
         })
     }
-    //check if the username exists
     const {username,password} = value;
-    const user = await User.findAll({
-        where:{
-            username:username
-        }
-    })
+
+    const user =await userService.findUser(username);
 
     if(!user){
         res.status(400).json({
@@ -29,7 +26,7 @@ export default async function signinController(req,res){
         })
     }
     //check if password is correct
-    const hashedPass = user[0].get('hashed_password')
+    const hashedPass = user.get('hashed_password')
     const isValidUser = auth.validateHash(password,hashedPass)
 
     if(!isValidUser){
